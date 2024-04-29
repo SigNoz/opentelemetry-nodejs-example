@@ -1,0 +1,24 @@
+{
+  "name": "opentelemetry-signoz-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:user": "cd user-service && node server.js",
+    "start:product": "cd product-service && node server.js",
+    "start:order": "cd order-service && node server.js",
+    "start:payment": "cd payment-service && node server.js",
+    "start:all": "npm run start:user & npm run start:product & npm run start:order & npm run start:payment"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

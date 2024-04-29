@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  order:
+    build: ./order-service
+    ports:
+      - "3001:3001"
+  payment:
+    build: ./payment-service
+    ports:
+      - "3002:3002"
+  product:
+    build: ./product-service
+    ports:
+      - "3003:3003"
+  user:
+    build: ./user-service
+    ports:
+      - "3004:3004"
