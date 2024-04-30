@@ -1,18 +1,52 @@
 version: '3.8'
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - myapp-network
+
   order:
     build: ./order-service
     ports:
       - "3001:3001"
+    depends_on:
+      - mongodb
+    networks:
+      - myapp-network
+
   payment:
     build: ./payment-service
     ports:
       - "3002:3002"
+    depends_on:
+      - mongodb
+    networks:
+      - myapp-network
+
   product:
     build: ./product-service
     ports:
       - "3003:3003"
+    depends_on:
+      - mongodb
+    networks:
+      - myapp-network
+
   user:
     build: ./user-service
     ports:
       - "3004:3004"
+    depends_on:
+      - mongodb
+    networks:
+      - myapp-network
+
+networks:
+  myapp-network:
+
+volumes:
+  mongo-data:

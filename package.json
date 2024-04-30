@@ -2,6 +2,7 @@
   "name": "opentelemetry-signoz-sample",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +17,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
