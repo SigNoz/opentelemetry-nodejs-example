@@ -44,7 +44,6 @@ This repository contains a microservices-based application demonstrating the int
 
 - `server.js`: Each service directory contains a `server.js` which is the entry point for that service, defining APIs and connecting to the database.
 - `Dockerfile`: Used to build Docker images for each service.
-- `model.js`: Defines Mongoose schemas for the MongoDB collections used by each service.
 
 ## Key Endpoints
 
@@ -83,6 +82,3 @@ If you prefer to build the application from scratch rather than cloning, follow 
 - **Endpoint failures**: Verify that all routes are correctly implemented and tested. Check server logs for detailed error messages.
 - **Configuration errors in Docker Compose**: Ensure that ports, volumes, and dependency definitions are correct.
 
-## Conclusion
-
-This guide provides a fundamental setup for a microservices architecture using Docker, Node.js, MongoDB, OpenTelemetry, and SigNoz. It is designed to help developers understand the basics of building and observing microservices in a containerized environment.
