@@ -1,0 +1,44 @@
+[{
+  "_id": {
+    "$oid": "663094792b95767e75bca927"
+  },
+  "name": "Test User 1",
+  "email": "test1@example.com",
+  "registeredAt": {
+    "$date": "2024-04-30T06:49:29.172Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630949a2b95767e75bca92a"
+  },
+  "name": "Test User 2",
+  "email": "test2@example.com",
+  "registeredAt": {
+    "$date": "2024-04-30T06:50:02.448Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "663094a02b95767e75bca92c"
+  },
+  "name": "Test User 3",
+  "email": "test3@example.com",
+  "registeredAt": {
+    "$date": "2024-04-30T06:50:08.429Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630b9afc3eb056dba547459"
+  },
+  "name": "Test User 4",
+  "email": "test4@example.com",
+  "registeredAt": {
+    "$date": "2024-04-30T09:28:15.906Z"
+  },
+  "__v": 0
+}]

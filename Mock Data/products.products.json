@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "663095360a4796c4f4ccd8b5"
+  },
+  "name": "Laptop",
+  "price": 1200,
+  "stock": 28,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630953e0a4796c4f4ccd8b7"
+  },
+  "name": "Smartphone",
+  "price": 700,
+  "stock": 49,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630954a0a4796c4f4ccd8b9"
+  },
+  "name": "Tablet",
+  "price": 450,
+  "stock": 39,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "663095550a4796c4f4ccd8bb"
+  },
+  "name": "Smartwatch",
+  "price": 250,
+  "stock": 56,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630955f0a4796c4f4ccd8bd"
+  },
+  "name": "Headphones",
+  "price": 150,
+  "stock": 88,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630b9d45f9bfb341b19995f"
+  },
+  "name": "Charger",
+  "price": 30,
+  "stock": 170,
+  "__v": 0
+}]

@@ -1,0 +1,114 @@
+[{
+  "_id": {
+    "$oid": "6630a9647d2ab17073a6b7d0"
+  },
+  "userId": {
+    "$oid": "663094792b95767e75bca927"
+  },
+  "products": [
+    {
+      "productId": {
+        "$oid": "663095360a4796c4f4ccd8b5"
+      },
+      "quantity": 1,
+      "_id": {
+        "$oid": "6630a9647d2ab17073a6b7d1"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "663095550a4796c4f4ccd8bb"
+      },
+      "quantity": 2,
+      "_id": {
+        "$oid": "6630a9647d2ab17073a6b7d2"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2024-04-30T07:00:00.000Z"
+  },
+  "status": "paid",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630abfd5a7fe2d78a3ddaca"
+  },
+  "userId": {
+    "$oid": "6630949a2b95767e75bca92a"
+  },
+  "products": [
+    {
+      "productId": {
+        "$oid": "6630953e0a4796c4f4ccd8b7"
+      },
+      "quantity": 1,
+      "_id": {
+        "$oid": "6630abfd5a7fe2d78a3ddacb"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2024-04-30T07:05:00.000Z"
+  },
+  "status": "awaiting payment",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630ac075a7fe2d78a3ddacd"
+  },
+  "userId": {
+    "$oid": "663094a02b95767e75bca92c"
+  },
+  "products": [
+    {
+      "productId": {
+        "$oid": "6630955f0a4796c4f4ccd8bd"
+      },
+      "quantity": 2,
+      "_id": {
+        "$oid": "6630ac075a7fe2d78a3ddace"
+      }
+    },
+    {
+      "productId": {
+        "$oid": "6630954a0a4796c4f4ccd8b9"
+      },
+      "quantity": 1,
+      "_id": {
+        "$oid": "6630ac075a7fe2d78a3ddacf"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2024-04-30T07:10:00.000Z"
+  },
+  "status": "awaiting payment",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6630ba0d5c6e78851ab87ad6"
+  },
+  "userId": {
+    "$oid": "663094a02b95767e75bca92c"
+  },
+  "products": [
+    {
+      "productId": {
+        "$oid": "6630b9d45f9bfb341b19995f"
+      },
+      "quantity": 20,
+      "_id": {
+        "$oid": "6630ba0d5c6e78851ab87ad7"
+      }
+    }
+  ],
+  "orderDate": {
+    "$date": "2024-04-30T07:10:00.000Z"
+  },
+  "status": "paid",
+  "__v": 0
+}]
