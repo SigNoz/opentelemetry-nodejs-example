@@ -3,6 +3,11 @@ import fetch from 'node-fetch';
 import mongoose from 'mongoose';
 const { connect, Schema, model } = mongoose;
 
+import { trace, SpanStatusCode} from '@opentelemetry/api';
+
+const tracer = trace.getTracer('order-service');
+
+
 const app = express();
 const port = 3001;
 
@@ -38,25 +43,8 @@ app.post('/orders', async (req, res) => {
     try {
         const order = new Order(req.body);
 
-        // Check product availability and prepare update operations via API calls
-        for (const item of order.products) {
-            const productResponse = await fetch(`http://product:3003/products/${item.productId}`);
-            const product = await productResponse.json();
-
-            if (!product || product.stock < item.quantity) {
-                throw new Error(`Product ${item.productId} is out of stock or does not exist.`);
-            }
-
-            // Make an API call to decrement stock
-            const updateResponse = await fetch(`http://product:3003/products/${item.productId}/decrement-stock`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ decrementBy: item.quantity })
-            });
-            if (!updateResponse.ok) {
-                throw new Error(`Failed to update stock for Product ${item.productId}.`);
-            }
-        }
+        // Validate the order (check product availability and update stock)
+        await validateOrder(order);
 
         // Save the order
         await order.save();
@@ -65,6 +53,7 @@ app.post('/orders', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 // GET order by ID
 app.get('/orders/:id', async (req, res) => {
@@ -111,3 +100,60 @@ app.patch('/orders/:id', async (req, res) => {
 app.listen(port, () => {
     console.log(`Order Service running on http://localhost:${port}`);
 });
+
+async function validateOrder(order) {
+    // Start a new span for the validation process
+    return tracer.startActiveSpan('validate-order', async (span) => {
+      try {
+        // Add an event indicating the start of validation
+        span.addEvent('Order validation started');
+
+        // Set attributes to provide more context
+        span.setAttribute('order.id', order._id.toString());
+
+        let total = 0;
+
+        // Validate each product in the order
+        for (const item of order.products) {
+          // Fetch product details from the Product service
+          const productResponse = await fetch(`http://product:3003/products/${item.productId}`);
+          const product = await productResponse.json();
+
+          // Check product availability
+          if (!product || product.stock < item.quantity) {
+            throw new Error(`Product ${item.productId} is out of stock or does not exist.`);
+          }
+
+          // Decrement product stock via the Product service
+          const updateResponse = await fetch(`http://product:3003/products/${item.productId}/decrement-stock`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ decrementBy: item.quantity })
+          });
+
+          // Check if stock update was successful
+          if (!updateResponse.ok) {
+            throw new Error(`Failed to update stock for Product ${item.productId}.`);
+          }
+
+          // Calculate the total amount
+          total += product.price * item.quantity;
+        }
+
+        // Add the total as an attribute to the span
+        span.setAttribute('order.total', total);
+
+        // Add an event indicating the completion of validation
+        span.addEvent('Order validation completed');
+        span.setStatus({ code: SpanStatusCode.OK });
+      } catch (error) {
+        // Record the error and set the span status to error
+        span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
+        span.recordException(error);
+        throw error;
+      } finally {
+        // End the span
+        span.end();
+      }
+    });
+}
