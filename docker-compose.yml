@@ -15,13 +15,13 @@ services:
       - "3001:3001"
     environment:
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_NODE_RESOURCE_DETECTORS=env,host,os
       - OTEL_SERVICE_NAME=order-service
       - NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
-      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
     depends_on:
       - mongodb
+      - otel-collector
     networks:
       - myapp-network
 
@@ -31,13 +31,13 @@ services:
       - "3002:3002"
     environment:
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_NODE_RESOURCE_DETECTORS=env,host,os
       - OTEL_SERVICE_NAME=payment-service
       - NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
-      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
     depends_on:
       - mongodb
+      - otel-collector
     networks:
       - myapp-network
 
@@ -47,13 +47,13 @@ services:
       - "3003:3003"
     environment:
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_NODE_RESOURCE_DETECTORS=env,host,os
       - OTEL_SERVICE_NAME=product-service
       - NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
-      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
     depends_on:
       - mongodb
+      - otel-collector
     networks:
       - myapp-network
 
@@ -63,13 +63,28 @@ services:
       - "3004:3004"
     environment:
       - OTEL_TRACES_EXPORTER=otlp
-      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - OTEL_NODE_RESOURCE_DETECTORS=env,host,os
       - OTEL_SERVICE_NAME=user-service
       - NODE_OPTIONS=--require @opentelemetry/auto-instrumentations-node/register
-      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
     depends_on:
       - mongodb
+      - otel-collector
+    networks:
+      - myapp-network
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config", "/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8888:8888"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - SIGNOZ_INGESTION_KEY=${SIGNOZ_INGESTION_KEY}
     networks:
       - myapp-network
 
