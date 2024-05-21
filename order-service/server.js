@@ -1,12 +1,14 @@
 import express, { json } from 'express';
 import fetch from 'node-fetch';
 import mongoose from 'mongoose';
+import { performance } from 'perf_hooks';
 const { connect, Schema, model } = mongoose;
 
 import { trace, SpanStatusCode} from '@opentelemetry/api';
 
 const tracer = trace.getTracer('order-service');
 
+import { orderValidationDuration } from './telemetry.js';
 
 const app = express();
 const port = 3001;
@@ -102,6 +104,8 @@ app.listen(port, () => {
 });
 
 async function validateOrder(order) {
+    const startTime = performance.now();  // Start timing
+
     // Start a new span for the validation process
     return tracer.startActiveSpan('validate-order', async (span) => {
       try {
@@ -145,6 +149,15 @@ async function validateOrder(order) {
 
         // Add an event indicating the completion of validation
         span.addEvent('Order validation completed');
+
+        // End timing and record the duration
+        const duration = performance.now() - startTime;
+        orderValidationDuration.record(duration, {
+            'order.id': order._id.toString(),
+            'status': 'validated'
+        });
+        
+
         span.setStatus({ code: SpanStatusCode.OK });
       } catch (error) {
         // Record the error and set the span status to error
