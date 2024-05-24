@@ -10,8 +10,6 @@ import { trace, metrics, SpanStatusCode} from '@opentelemetry/api';
 const tracer = trace.getTracer('order-service');
 const meter = metrics.getMeter('order-service');
 
-// import { orderValidationDuration } from './telemetry.js';
-
 const app = express();
 const port = 3001;
 
