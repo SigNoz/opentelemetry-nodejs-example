@@ -82,11 +82,23 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "8888:8888"
+      - "2255:2255"
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
       - SIGNOZ_INGESTION_KEY=${SIGNOZ_INGESTION_KEY}
     networks:
       - myapp-network
+
+  logspout:
+    image: "gliderlabs/logspout:v3.2.14"
+    container_name: signoz-logspout
+    volumes:
+      - /etc/hostname:/etc/host_hostname:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: syslog+tcp://otel-collector:2255
+    depends_on:
+      - otel-collector
+    restart: on-failure
 
 networks:
   myapp-network:
