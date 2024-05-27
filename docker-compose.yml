@@ -98,6 +98,8 @@ services:
     command: syslog+tcp://otel-collector:2255
     depends_on:
       - otel-collector
+    networks:
+      - myapp-network
     restart: on-failure
 
 networks:
