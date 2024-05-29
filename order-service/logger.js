@@ -4,20 +4,34 @@ import { trace } from "@opentelemetry/api";
 
 const logger = pino({
   transport: {
-    target: "pino-pretty",
+    targets: [
+      {
+        target: "pino-opentelemetry-transport",
+        options: {
+          resourceAttributes: {
+            "service.name": "order-service",
+          },
+        },
+      },
+      {
+        target: "pino-pretty",
+        level: "info",
+        options: { colorize: true },
+      },
+    ],
   },
   formatters: {
     log: (log) => {
       const currentSpan = trace.getActiveSpan();
       if (currentSpan) {
-        const { traceId, spanId } = currentSpan.spanContext();
+        const { traceId, spanId, traceFlags } = currentSpan.spanContext();
 
         log.traceId = traceId;
         log.spanId = spanId;
+        log.traceFlags = traceFlags;
 
-        console.log("Hereeee", traceId, " + ", spanId);
+        console.log("Hereeee in the object", traceId, " + ", spanId);
       }
-      console.log(log);
       return log;
     },
   },

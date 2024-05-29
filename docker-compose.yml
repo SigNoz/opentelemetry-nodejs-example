@@ -89,19 +89,6 @@ services:
     networks:
       - myapp-network
 
-  logspout:
-    image: "gliderlabs/logspout:v3.2.14"
-    container_name: signoz-logspout
-    volumes:
-      - /etc/hostname:/etc/host_hostname:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: syslog+tcp://otel-collector:2255
-    depends_on:
-      - otel-collector
-    networks:
-      - myapp-network
-    restart: on-failure
-
 networks:
   myapp-network:
 
